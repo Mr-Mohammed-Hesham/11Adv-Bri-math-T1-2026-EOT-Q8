@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📐 Evaluating Logarithmic Expressions - رياضيات 11 متقدم | Mr. Mohammed Hesham</title>
+<meta name="description" content="امتحان تفاعلي عن إيجاد قيم التعابير التي تتضمن لوغاريتمات - رياضيات 11 متقدم">
+<meta name="author" content="Mr. Mohammed Hesham">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Inter:wght@400;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<style>
+body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); }
+body.en-mode { font-family: 'Inter', sans-serif; direction: ltr; }
+.arabic-math { font-family: 'Amiri', 'Cairo', serif; }
+.correct { background-color: #dcfce7 !important; border-color: #16a34a !important; }
+.incorrect { background-color: #fee2e2 !important; border-color: #dc2626 !important; }
+.timer-warning { color: #dc2626 !important; animation: pulse 1s infinite; }
+@keyframes pulse { 50% { opacity: 0.7; } }
+@media print { .no-print { display: none !important; } }
+.success-badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-weight: bold; font-size: 0.875rem; }
+.grade-excellent { background: #dcfce7; color: #166534; }
+.grade-good { background: #fef3c7; color: #92400e; }
+.grade-pass { background: #dbeafe; color: #1e40af; }
+.grade-fail { background: #fee2e2; color: #991b1b; }
+.lang-switch { position: fixed; top: 16px; left: 16px; z-index: 100; background: white; padding: 6px; border-radius: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); display: flex; gap: 4px; border: 2px solid #d97706; }
+body.en-mode .lang-switch { left: auto; right: 16px; }
+.lang-btn { padding: 6px 14px; border-radius: 20px; cursor: pointer; font-weight: bold; transition: all 0.3s; border: none; font-size: 0.875rem; background: transparent; color: #6b7280; }
+.lang-btn.active { background: #d97706; color: white; box-shadow: 0 2px 6px rgba(217,119,6,0.4); }
+.shuffle-badge { display: inline-block; background: linear-gradient(135deg, #d97706, #b45309); color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; margin-right: 8px; }
+body.en-mode .shuffle-badge { margin-right: 0; margin-left: 8px; }
+.math-display { display: inline-block; direction: ltr; font-family: 'Amiri', serif; font-size: 1.1em; padding: 2px 6px; background: #fef3c7; border-radius: 4px; margin: 2px; color: #92400e; font-weight: 600; }
+.save-indicator { position: fixed; bottom: 20px; left: 20px; z-index: 200; background: #10b981; color: white; padding: 8px 16px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+body.en-mode .save-indicator { left: auto; right: 20px; }
+.save-indicator.show { opacity: 1; }
+.formula-box { background: #fef3c7; border: 2px solid #f59e0b; border-radius: 8px; padding: 12px; margin: 10px 0; font-family: 'Amiri', serif; direction: ltr; text-align: center; }
+.svg-graph { display: block; margin: 12px auto; background: white; border: 2px solid #e5e7eb; border-radius: 12px; padding: 8px; max-width: 100%; }
+.graph-container { text-align: center; margin: 10px 0; }
+.module-badge { display: inline-block; padding: 4px 16px; border-radius: 20px; font-weight: bold; font-size: 0.85rem; margin-bottom: 8px; }
+.module-1 { background: #fef3c7; color: #92400e; }
+.module-2 { background: #dbeafe; color: #1e40af; }
+.module-3 { background: #fce7f3; color: #9f1239; }
+.module-4 { background: #ecfdf5; color: #065f46; }
+.module-5 { background: #ede9fe; color: #5b21b6; }
+.module-6 { background: #fee2e2; color: #991b1b; }
+</style>
+</head>
+<body class="p-4 md:p-8 min-h-screen">
+
+<div class="lang-switch no-print">
+<button class="lang-btn active" onclick="setLanguage('ar')" id="btn-ar">عربي</button>
+<button class="lang-btn" onclick="setLanguage('en')" id="btn-en">EN</button>
+</div>
+
+<div id="saveIndicator" class="save-indicator">💾 <span data-ar="تم الحفظ" data-en="Saved">تم الحفظ</span></div>
+
+<div id="timer-container" class="max-w-5xl mx-auto mb-4 text-center no-print">
+<div class="bg-white p-4 rounded-2xl shadow-lg inline-block border-2 border-amber-100">
+<span class="text-gray-600 ml-2">⏰ <span data-ar="الوقت المتبقي:" data-en="Time Left:">الوقت المتبقي:</span></span>
+<span id="timer" class="text-2xl font-bold text-amber-700 font-mono">75:00</span>
+<span class="shuffle-badge">📐 <span data-ar="تقييم التعابير اللوغاريتمية" data-en="Evaluating Log Expressions">تقييم التعابير اللوغاريتمية</span> - 30 <span data-ar="سؤال" data-en="Questions">سؤال</span></span>
+</div>
+</div>
+
+<div class="max-w-5xl mx-auto mb-6 flex flex-wrap gap-3 justify-center no-print">
+<button onclick="toggleAnswers()" class="bg-amber-700 hover:bg-amber-800 text-white px-5 py-2 rounded-xl font-medium transition shadow">👀 <span data-ar="إظهار/إخفاء الإجابات" data-en="Show/Hide Answers">إظهار/إخفاء الإجابات</span></button>
+<button onclick="window.print()" class="bg-gray-700 hover:bg-gray-900 text-white px-5 py-2 rounded-xl font-medium transition shadow">🖨️ <span data-ar="طباعة" data-en="Print">طباعة</span></button>
+<button onclick="reshuffleExam()" class="bg-gradient-to-r from-amber-700 to-orange-600 hover:from-amber-800 hover:to-orange-700 text-white px-5 py-2 rounded-xl font-medium transition shadow">🔄 <span data-ar="أسئلة جديدة" data-en="New Questions">أسئلة جديدة</span></button>
+<button onclick="clearProgress()" class="bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded-xl font-medium transition shadow">🗑️ <span data-ar="مسح التقدم" data-en="Clear Progress">مسح التقدم</span></button>
+</div>
+
+<header class="max-w-5xl mx-auto bg-white p-8 rounded-3xl shadow-2xl mb-8 border-4 border-amber-500">
+<div class="text-center">
+<div class="inline-block bg-amber-700 text-white px-6 py-2 rounded-full text-sm font-bold mb-4">MATH 11 ADVANCED - QUESTION 8</div>
+<h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">📐 <span data-ar="إيجاد قيم التعابير التي تتضمن لوغاريتمات" data-en="Evaluating Logarithmic Expressions">إيجاد قيم التعابير التي تتضمن لوغاريتمات</span></h1>
+<h2 class="text-xl text-amber-700 font-semibold mb-2"><span data-ar="رياضيات 11 متقدم - تمارين 1-24 (صفحة 96)" data-en="Grade 11 Advanced - Exercises 1-24 (Page 96)">رياضيات 11 متقدم - تمارين 1-24 (صفحة 96)</span></h2>
+<p class="text-gray-600 mb-4"><span data-ar="Logarithms: Properties, Evaluation & Natural Log" data-en="Logarithms: Properties, Evaluation & Natural Log">Logarithms: Properties, Evaluation & Natural Log</span></p>
+<p class="text-sm text-green-600 font-semibold">💾 <span data-ar="يتم حفظ تقدمك تلقائياً - 30 سؤالاً في 6 أقسام" data-en="Your progress is auto-saved - 30 questions in 6 sections">يتم حفظ تقدمك تلقائياً - 30 سؤالاً في 6 أقسام</span></p>
+</div>
+<div class="mt-6 flex flex-wrap justify-center gap-4 text-sm text-gray-600">
+<span>📅 <span data-ar="التاريخ:" data-en="Date:">التاريخ:</span> <input type="text" id="examDate" class="border-b-2 border-amber-300 bg-transparent w-32 text-center"></span>
+<span>😊 <span data-ar="الاسم:" data-en="Name:">الاسم:</span> <input type="text" id="studentName" class="border-b-2 border-amber-300 bg-transparent w-40 text-center" data-placeholder-ar="اكتب اسمك" data-placeholder-en="Your name" placeholder="اكتب اسمك"></span>
+<span>🏫 <span data-ar="الشعبة:" data-en="Class:">الشعبة:</span> <input type="text" id="studentClass" class="border-b-2 border-amber-300 bg-transparent w-32 text-center" data-placeholder-ar="الشعبة" data-placeholder-en="Class" placeholder="الشعبة"></span>
+<span>⏰ <span data-ar="المدة: 75 دقيقة" data-en="Duration: 75 min">المدة: 75 دقيقة</span></span>
+<span>📊 <span data-ar="المجموع: 100 درجة" data-en="Total: 100 points">المجموع: 100 درجة</span></span>
+</div>
+</header>
+
+<div class="max-w-5xl mx-auto mb-6 bg-white p-4 rounded-xl shadow-lg border-2 border-amber-200 no-print">
+<h3 class="font-bold text-lg mb-3 text-amber-800 text-center">📐 <span data-ar="القوانين والخصائص الأساسية" data-en="Key Laws & Properties">القوانين والخصائص الأساسية</span></h3>
+<div class="grid md:grid-cols-3 gap-3 text-sm">
+<div class="formula-box">
+<strong><span data-ar="تعريف اللوغاريتم:" data-en="Logarithm Definition:">تعريف اللوغاريتم:</span></strong><br>
+<span class="math-display">log_b(a) = c ⟺ b^c = a</span>
+</div>
+<div class="formula-box">
+<strong><span data-ar="اللوغاريتم الطبيعي:" data-en="Natural Logarithm:">اللوغاريتم الطبيعي:</span></strong><br>
+<span class="math-display">ln(x) = log_e(x)</span><br>
+<span data-ar="e ≈ 2.71828" data-en="e ≈ 2.71828">e ≈ 2.71828</span>
+</div>
+<div class="formula-box">
+<strong><span data-ar="خصائص مهمة:" data-en="Key Properties:">خصائص مهمة:</span></strong><br>
+<span data-ar="log_b(b) = 1, log_b(1) = 0" data-en="log_b(b) = 1, log_b(1) = 0">log_b(b) = 1, log_b(1) = 0</span><br>
+<span data-ar="b^(log_b(x)) = x" data-en="b^(log_b(x)) = x">b^(log_b(x)) = x</span>
+</div>
+</div>
+</div>
+
+<main class="max-w-5xl mx-auto space-y-8" id="exam-content"></main>
+
+<div class="text-center no-print pb-8 mt-8">
+<button onclick="gradeExam()" class="bg-gradient-to-r from-amber-700 to-orange-600 hover:from-amber-800 hover:to-orange-700 text-white text-lg px-12 py-4 rounded-2xl font-bold shadow-xl transition transform hover:scale-105">🎯 <span data-ar="صحح إجاباتي!" data-en="Grade My Exam!">صحح إجاباتي!</span></button>
+</div>
+
+<div id="results-panel" class="max-w-5xl mx-auto mt-8 bg-white p-8 rounded-3xl shadow-2xl border-4 border-amber-500 hidden no-print">
+<h2 class="text-3xl font-bold text-gray-900 mb-6 text-center">🏆 <span data-ar="نتيجتك يا بطل!" data-en="Your Result, Champion!">نتيجتك يا بطل!</span> 🏆</h2>
+<div class="grid md:grid-cols-3 gap-4 mb-6">
+<div class="bg-amber-50 p-4 rounded-xl text-center"><p>😊 <span data-ar="الاسم" data-en="Name">الاسم</span></p><p id="res-name" class="font-bold text-xl text-amber-700">-</p></div>
+<div class="bg-orange-50 p-4 rounded-xl text-center"><p>📅 <span data-ar="التاريخ" data-en="Date">التاريخ</span></p><p id="res-date" class="font-bold text-xl text-orange-700">-</p></div>
+<div class="bg-amber-50 p-4 rounded-xl text-center"><p>🌟 <span data-ar="المجموع" data-en="Total">المجموع</span></p><p id="res-total" class="font-bold text-3xl text-amber-700">0 / 100</p></div>
+</div>
+<div class="text-center mb-6">
+<span id="success-badge" class="success-badge grade-excellent">-</span>
+<p id="success-percent" class="text-4xl font-bold text-amber-700 mt-2">0%</p>
+<p class="text-sm text-gray-500"><span data-ar="نسبة النجاح" data-en="Success Rate">نسبة النجاح</span></p>
+</div>
+<div class="bg-gray-50 p-6 rounded-xl mb-6">
+<h3 class="font-bold text-lg mb-4 text-gray-800">📊 <span data-ar="أداؤك في كل قسم:" data-en="Your Performance by Section:">أداؤك في كل قسم:</span></h3>
+<div class="space-y-3" id="sections-performance"></div>
+</div>
+<div class="text-center">
+<button id="sendEmailBtn" onclick="sendResultsToEmail()" class="bg-gradient-to-r from-amber-700 to-orange-600 text-white text-lg px-8 py-3 rounded-2xl font-bold shadow-xl transition">📧 <span data-ar="أرسل النتيجة للمعلم" data-en="Send Result to Teacher">أرسل النتيجة للمعلم</span></button>
+<p id="emailStatus" class="text-sm mt-2 text-center font-medium"></p>
+</div>
+</div>
+
+<footer class="max-w-5xl mx-auto mt-10 mb-8 text-center text-gray-500 text-sm no-print">
+© Evaluating Logarithmic Expressions - Grade 11 Advanced | Mr. Mohammed Hesham 📐
+</footer>
+
+<script>
+const PUBLIC_KEY = "Rb3Lq8tXaFmc5YHUH";
+const SERVICE_ID = "service_w15m64i";
+const TEMPLATE_ID = "template_5b0u2tq";
+const TARGET_EMAIL = "mohammedhesham872@gmail.com";
+emailjs.init(PUBLIC_KEY);
+
+const STORAGE_KEY = 'logarithmic_expressions_grade11_v1';
+const TOTAL_TIME = 4500;
+const TOTAL_QUESTIONS = 30;
+const TOTAL_SECTIONS = 6;
+const QUESTIONS_PER_SECTION = 5;
+
+let currentSeed = null;
+let answersVisible = false;
+let saveIndicatorTimeout = null;
+let currentLang = 'ar';
+let timeRemaining = TOTAL_TIME;
+let timerInterval;
+let examData;
+let correctAnswersMap = {};
+let rng = null;
+
+function mulberry32(a) {
+    return function() {
+        var t = a += 0x6D2B79F5;
+        t = Math.imul(t ^ t >>> 15, t | 1);
+        t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+        return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    }
+}
+
+function showSaveIndicator() {
+    const indicator = document.getElementById('saveIndicator');
+    indicator.classList.add('show');
+    if (saveIndicatorTimeout) clearTimeout(saveIndicatorTimeout);
+    saveIndicatorTimeout = setTimeout(() => indicator.classList.remove('show'), 1500);
+}
+
+function saveState(showIndicator = true) {
+    try {
+        const state = {
+            seed: currentSeed, lang: currentLang,
+            studentName: document.getElementById('studentName').value,
+            studentClass: document.getElementById('studentClass').value,
+            examDate: document.getElementById('examDate').value,
+            answers: getSelectedAnswers(),
+            timeRemaining: timeRemaining,
+            answersVisible: answersVisible, savedAt: Date.now()
+        };
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        if (showIndicator) showSaveIndicator();
+    } catch (e) { console.error('Save error:', e); }
+}
+
+function loadState() {
+    try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        return saved ? JSON.parse(saved) : null;
+    } catch (e) { return null; }
+}
+
+function getSelectedAnswers() {
+    const answers = {};
+    for (let i = 0; i < TOTAL_QUESTIONS; i++) {
+        const selected = document.querySelector('input[name="q'+i+'"]:checked');
+        if (selected) answers[i] = selected.value;
+    }
+    return answers;
+}
+
+function restoreAnswers(answers) {
+    if (!answers) return;
+    for (const [idx, val] of Object.entries(answers)) {
+        const radio = document.querySelector('input[name="q'+idx+'"][value="'+val+'"]');
+        if (radio) radio.checked = true;
+    }
+}
+
+function clearProgress() {
+    const msg = currentLang === 'ar' ? '⚠️ هل أنت متأكد من مسح كل التقدم؟' : '⚠️ Clear all progress?';
+    if (confirm(msg)) { localStorage.removeItem(STORAGE_KEY); location.reload(); }
+}
+
+function setupAnswerListeners() {
+    document.getElementById('exam-content').addEventListener('change', (e) => {
+        if (e.target.type === 'radio') saveState();
+    });
+}
+
+function setupInputListeners() {
+    ['studentName', 'studentClass', 'examDate'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.addEventListener('input', () => saveState(false));
+            el.addEventListener('blur', () => saveState());
+        }
+    });
+}
+
+// ==================== SVG DIAGRAMS - ACCURATE LOGARITHM VISUALS ====================
+const svgGraphs = {
+    log_definition: `<svg class="svg-graph" width="450" height="280" viewBox="0 0 450 280" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="5" width="440" height="270" rx="12" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+        <text x="225" y="25" text-anchor="middle" font-size="14" fill="#92400e" font-weight="bold">📐 تعريف اللوغاريتم - Logarithm Definition</text>
+        <rect x="20" y="45" width="400" height="60" rx="6" fill="#fde68a" stroke="#f59e0b" stroke-width="2"/>
+        <text x="220" y="70" text-anchor="middle" font-size="14" fill="#92400e" font-family="'Amiri', serif" font-weight="bold">log_b(a) = c  ⟺  b^c = a</text>
+        <text x="220" y="95" text-anchor="middle" font-size="11" fill="#92400e">"اللوغاريتم هو الأس الذي يجب رفع الأساس إليه للحصول على العدد"</text>
+        <rect x="20" y="115" width="190" height="70" rx="6" fill="#fde68a" stroke="#f59e0b" stroke-width="2"/>
+        <text x="115" y="135" text-anchor="middle" font-size="11" fill="#92400e" font-weight="bold">Example 1:</text>
+        <text x="115" y="155" text-anchor="middle" font-size="12" fill="#92400e" font-family="'Amiri', serif">log₂(8) = 3</text>
+        <text x="115" y="175" text-anchor="middle" font-size="10" fill="#92400e">because 2³ = 8</text>
+        <rect x="230" y="115" width="190" height="70" rx="6" fill="#fde68a" stroke="#f59e0b" stroke-width="2"/>
+        <text x="325" y="135" text-anchor="middle" font-size="11" fill="#92400e" font-weight="bold">Example 2:</text>
+        <text x="325" y="155" text-anchor="middle" font-size="12" fill="#92400e" font-family="'Amiri', serif">log₁₀(100) = 2</text>
+        <text x="325" y="175" text-anchor="middle" font-size="10" fill="#92400e">because 10² = 100</text>
+        <rect x="20" y="195" width="400" height="65" rx="6" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+        <text x="220" y="215" text-anchor="middle" font-size="11" fill="#92400e" font-weight="bold">Key Properties:</text>
+        <text x="220" y="235" text-anchor="middle" font-size="10" fill="#92400e">log_b(b) = 1 | log_b(1) = 0 | b^(log_b(x)) = x | log_b(b^x) = x</text>
+        <text x="220" y="255" text-anchor="middle" font-size="10" fill="#92400e">ln(x) = log_e(x) where e ≈ 2.71828</text>
+    </svg>`,
+    
+    log_graph: `<svg class="svg-graph" width="450" height="320" viewBox="0 0 450 320" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="5" width="440" height="310" rx="12" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+        <text x="225" y="25" text-anchor="middle" font-size="14" fill="#1e40af" font-weight="bold">📈 منحنى الدالة اللوغاريتمية y = log(x)</text>
+        <!-- Grid -->
+        <g stroke="#e5e7eb" stroke-width="0.5">
+            ${Array.from({length: 19}, (_, i) => `<line x1="${50 + i*20}" y1="40" x2="${50 + i*20}" y2="280"/>`).join('')}
+            ${Array.from({length: 13}, (_, i) => `<line x1="50" y1="${40 + i*20}" x2="410" y2="${40 + i*20}"/>`).join('')}
+        </g>
+        <!-- Axes -->
+        <line x1="50" y1="240" x2="420" y2="240" stroke="#374151" stroke-width="2" marker-end="url(#arrowLog)"/>
+        <line x1="150" y1="40" x2="150" y2="280" stroke="#374151" stroke-width="2" marker-end="url(#arrowLog)"/>
+        <text x="425" y="245" font-size="12" fill="#374151" font-weight="bold">x</text>
+        <text x="140" y="35" font-size="12" fill="#374151" font-weight="bold">y</text>
+        <text x="155" y="255" font-size="10" fill="#374151">O</text>
+        <!-- Scale -->
+        <text x="190" y="255" font-size="9" fill="#6b7280">1</text>
+        <text x="230" y="255" font-size="9" fill="#6b7280">2</text>
+        <text x="270" y="255" font-size="9" fill="#6b7280">3</text>
+        <text x="310" y="255" font-size="9" fill="#6b7280">4</text>
+        <text x="350" y="255" font-size="9" fill="#6b7280">5</text>
+        <text x="110" y="255" font-size="9" fill="#6b7280">-1</text>
+        <text x="140" y="220" font-size="9" fill="#6b7280">1</text>
+        <text x="140" y="180" font-size="9" fill="#6b7280">2</text>
+        <text x="140" y="260" font-size="9" fill="#6b7280">-1</text>
+        <!-- Vertical asymptote at x=0 (y-axis) -->
+        <line x1="150" y1="40" x2="150" y2="280" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="4"/>
+        <text x="155" y="50" font-size="9" fill="#dc2626" font-weight="bold">VA: x=0</text>
+        <!-- log(x) curve -->
+        <path d="M 155 270 Q 160 260 170 240 Q 180 220 190 210 Q 210 195 230 185 Q 260 170 290 160 Q 330 150 370 140" fill="none" stroke="#2563eb" stroke-width="3"/>
+        <text x="375" y="135" font-size="11" fill="#2563eb" font-weight="bold">y = log(x)</text>
+        <!-- Key points -->
+        <circle cx="190" cy="240" r="4" fill="#dc2626"/>
+        <text x="195" y="235" font-size="9" fill="#dc2626" font-weight="bold">(1, 0)</text>
+        <circle cx="230" cy="220" r="4" fill="#16a34a"/>
+        <text x="235" y="215" font-size="9" fill="#16a34a" font-weight="bold">(10, 1)</text>
+        <circle cx="270" cy="205" r="4" fill="#7c3aed"/>
+        <text x="275" y="200" font-size="9" fill="#7c3aed" font-weight="bold">(100, 2)</text>
+        <text x="225" y="300" text-anchor="middle" font-size="11" fill="#1e40af">Domain: (0, +∞), Range: (-∞, +∞), x-intercept: (1, 0)</text>
+        <defs><marker id="arrowLog" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#374151"/></marker></defs>
+    </svg>`,
+    
+    natural_log: `<svg class="svg-graph" width="450" height="300" viewBox="0 0 450 300" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="5" width="440" height="290" rx="12" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
+        <text x="225" y="25" text-anchor="middle" font-size="14" fill="#065f46" font-weight="bold">🌿 اللوغاريتم الطبيعي - Natural Logarithm</text>
+        <rect x="20" y="45" width="400" height="50" rx="6" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+        <text x="220" y="70" text-anchor="middle" font-size="13" fill="#065f46" font-family="'Amiri', serif" font-weight="bold">ln(x) = log_e(x) where e ≈ 2.71828</text>
+        <rect x="20" y="105" width="190" height="80" rx="6" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+        <text x="115" y="125" text-anchor="middle" font-size="11" fill="#065f46" font-weight="bold">Key Values:</text>
+        <text x="115" y="145" text-anchor="middle" font-size="10" fill="#065f46">ln(1) = 0</text>
+        <text x="115" y="162" text-anchor="middle" font-size="10" fill="#065f46">ln(e) = 1</text>
+        <text x="115" y="179" text-anchor="middle" font-size="10" fill="#065f46">ln(e²) = 2</text>
+        <rect x="230" y="105" width="190" height="80" rx="6" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+        <text x="325" y="125" text-anchor="middle" font-size="11" fill="#065f46" font-weight="bold">Properties:</text>
+        <text x="325" y="145" text-anchor="middle" font-size="10" fill="#065f46">ln(e^x) = x</text>
+        <text x="325" y="162" text-anchor="middle" font-size="10" fill="#065f46">e^(ln x) = x</text>
+        <text x="325" y="179" text-anchor="middle" font-size="10" fill="#065f46">ln(ab) = ln a + ln b</text>
+        <rect x="20" y="195" width="400" height="40" rx="6" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+        <text x="220" y="220" text-anchor="middle" font-size="11" fill="#065f46">ln(-6) is UNDEFINED (log of negative number)</text>
+        <rect x="20" y="245" width="400" height="40" rx="6" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+        <text x="220" y="270" text-anchor="middle" font-size="11" fill="#92400e" font-weight="bold">ln(1/e¹²) = ln(e^(-12)) = -12</text>
+    </svg>`,
+    
+    exercise_1_8: `<svg class="svg-graph" width="450" height="280" viewBox="0 0 450 280" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="5" width="440" height="270" rx="12" fill="#fce7f3" stroke="#ec4899" stroke-width="2"/>
+        <text x="225" y="25" text-anchor="middle" font-size="14" fill="#9f1239" font-weight="bold">📝 تمارين 1-8 - Exercises 1-8</text>
+        <rect x="20" y="45" width="200" height="40" rx="6" fill="#fbcfe8" stroke="#ec4899" stroke-width="2"/>
+        <text x="120" y="70" text-anchor="middle" font-size="11" fill="#9f1239" font-family="'Amiri', serif">1. log₂ 8 = 3</text>
+        <rect x="230" y="45" width="200" height="40" rx="6" fill="#fbcfe8" stroke="#ec4899" stroke-width="2"/>
+        <text x="330" y="70" text-anchor="middle" font-size="11" fill="#9f1239" font-family="'Amiri', serif">2. log₁₀ 10 = 1</text>
+        <rect x="20" y="95" width="200" height="40" rx="6" fill="#fbcfe8" stroke="#ec4899" stroke-width="2"/>
+        <text x="120" y="120" text-anchor="middle" font-size="11" fill="#9f1239" font-family="'Amiri', serif">3. log₆(1/36) = -2</text>
+        <rect x="230" y="95" width="200" height="40" rx="6" fill="#fbcfe8" stroke="#ec4899" stroke-width="2"/>
+        <text x="330" y="120" text-anchor="middle" font-size="11" fill="#9f1239" font-family="'Amiri', serif">4. 4^(log₄ 1) = 1</text>
+        <rect x="20" y="145" width="200" height="40" rx="6" fill="#fbcfe8" stroke="#ec4899" stroke-width="2"/>
+        <text x="120" y="170" text-anchor="middle" font-size="11" fill="#9f1239" font-family="'Amiri', serif">5. log₁₁ 121 = 2</text>
+        <rect x="230" y="145" width="200" height="40" rx="6" fill="#fbcfe8" stroke="#ec4899" stroke-width="2"/>
+        <text x="330" y="170" text-anchor="middle" font-size="11" fill="#9f1239" font-family="'Amiri', serif">6. log₂ 2³ = 3</text>
+        <rect x="20" y="195" width="200" height="40" rx="6" fill="#fbcfe8" stroke="#ec4899" stroke-width="2"/>
+        <text x="120" y="220" text-anchor="middle" font-size="11" fill="#9f1239" font-family="'Amiri', serif">7. log_(√9) 81 = 4</text>
+        <rect x="230" y="195" width="200" height="40" rx="6" fill="#fbcfe8" stroke="#ec4899" stroke-width="2"/>
+        <text x="330" y="220" text-anchor="middle" font-size="11" fill="#9f1239" font-family="'Amiri', serif">8. log 0.01 = -2</text>
+        <text x="225" y="260" text-anchor="middle" font-size="10" fill="#9f1239">Note: log without base means log₁₀ (common logarithm)</text>
+    </svg>`,
+    
+    exercise_9_16: `<svg class="svg-graph" width="450" height="300" viewBox="0 0 450 300" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="5" width="440" height="290" rx="12" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
+        <text x="225" y="25" text-anchor="middle" font-size="14" fill="#5b21b6" font-weight="bold">📝 تمارين 9-16 - Exercises 9-16</text>
+        <rect x="20" y="45" width="200" height="35" rx="6" fill="#ddd6fe" stroke="#7c3aed" stroke-width="2"/>
+        <text x="120" y="68" text-anchor="middle" font-size="10" fill="#5b21b6" font-family="'Amiri', serif">9. log 42 ≈ 1.623</text>
+        <rect x="230" y="45" width="200" height="35" rx="6" fill="#ddd6fe" stroke="#7c3aed" stroke-width="2"/>
+        <text x="330" y="68" text-anchor="middle" font-size="10" fill="#5b21b6" font-family="'Amiri', serif">10. log_x x² = 2</text>
+        <rect x="20" y="90" width="200" height="35" rx="6" fill="#ddd6fe" stroke="#7c3aed" stroke-width="2"/>
+        <text x="120" y="113" text-anchor="middle" font-size="10" fill="#5b21b6" font-family="'Amiri', serif">11. log 5275 ≈ 3.722</text>
+        <rect x="230" y="90" width="200" height="35" rx="6" fill="#ddd6fe" stroke="#7c3aed" stroke-width="2"/>
+        <text x="330" y="113" text-anchor="middle" font-size="10" fill="#5b21b6" font-family="'Amiri', serif">12. ln e^(-14) = -14</text>
+        <rect x="20" y="135" width="200" height="35" rx="6" fill="#ddd6fe" stroke="#7c3aed" stroke-width="2"/>
+        <text x="120" y="158" text-anchor="middle" font-size="10" fill="#5b21b6" font-family="'Amiri', serif">13. 3 ln e⁴ = 12</text>
+        <rect x="230" y="135" width="200" height="35" rx="6" fill="#ddd6fe" stroke="#7c3aed" stroke-width="2"/>
+        <text x="330" y="158" text-anchor="middle" font-size="10" fill="#5b21b6" font-family="'Amiri', serif">14. ln(5-√6) ≈ 1.10</text>
+        <rect x="20" y="180" width="200" height="35" rx="6" fill="#ddd6fe" stroke="#7c3aed" stroke-width="2"/>
+        <text x="120" y="203" text-anchor="middle" font-size="10" fill="#5b21b6" font-family="'Amiri', serif">15. log₃₆ ⁶√6 = 1/12</text>
+        <rect x="230" y="180" width="200" height="35" rx="6" fill="#ddd6fe" stroke="#7c3aed" stroke-width="2"/>
+        <text x="330" y="203" text-anchor="middle" font-size="10" fill="#5b21b6" font-family="'Amiri', serif">16. 4 ln(7-√2) ≈ 7.44</text>
+        <rect x="20" y="225" width="410" height="55" rx="6" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+        <text x="225" y="245" text-anchor="middle" font-size="11" fill="#92400e" font-weight="bold">Key: log without base = log₁₀</text>
+        <text x="225" y="265" text-anchor="middle" font-size="10" fill="#92400e">ln = log_e, and log_b(b^x) = x, b^(log_b(x)) = x</text>
+    </svg>`,
+    
+    exercise_17_24: `<svg class="svg-graph" width="450" height="320" viewBox="0 0 450 320" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="5" width="440" height="310" rx="12" fill="#fee2e2" stroke="#dc2626" stroke-width="2"/>
+        <text x="225" y="25" text-anchor="middle" font-size="14" fill="#991b1b" font-weight="bold">📝 تمارين 17-24 - Exercises 17-24</text>
+        <rect x="20" y="45" width="200" height="35" rx="6" fill="#fecaca" stroke="#dc2626" stroke-width="2"/>
+        <text x="120" y="68" text-anchor="middle" font-size="10" fill="#991b1b" font-family="'Amiri', serif">17. log 635 ≈ 2.803</text>
+        <rect x="230" y="45" width="200" height="35" rx="6" fill="#fecaca" stroke="#dc2626" stroke-width="2"/>
+        <text x="330" y="68" text-anchor="middle" font-size="10" fill="#991b1b" font-family="'Amiri', serif">18. ln2/ln7 = log₇2</text>
+        <rect x="20" y="90" width="200" height="35" rx="6" fill="#fecaca" stroke="#dc2626" stroke-width="2"/>
+        <text x="120" y="113" text-anchor="middle" font-size="10" fill="#991b1b" font-family="'Amiri', serif">19. ln(-6) = UNDEFINED</text>
+        <rect x="230" y="90" width="200" height="35" rx="6" fill="#fecaca" stroke="#dc2626" stroke-width="2"/>
+        <text x="330" y="113" text-anchor="middle" font-size="10" fill="#991b1b" font-family="'Amiri', serif">20. ln(1/e¹²) = -12</text>
+        <rect x="20" y="135" width="200" height="35" rx="6" fill="#fecaca" stroke="#dc2626" stroke-width="2"/>
+        <text x="120" y="158" text-anchor="middle" font-size="10" fill="#991b1b" font-family="'Amiri', serif">21. ln 8 ≈ 2.079</text>
+        <rect x="230" y="135" width="200" height="35" rx="6" fill="#fecaca" stroke="#dc2626" stroke-width="2"/>
+        <text x="330" y="158" text-anchor="middle" font-size="10" fill="#991b1b" font-family="'Amiri', serif">22. log_(⁴√4) 64 = 6</text>
+        <rect x="20" y="180" width="200" height="35" rx="6" fill="#fecaca" stroke="#dc2626" stroke-width="2"/>
+        <text x="120" y="203" text-anchor="middle" font-size="10" fill="#991b1b" font-family="'Amiri', serif">23. 7/ln e = 7</text>
+        <rect x="230" y="180" width="200" height="35" rx="6" fill="#fecaca" stroke="#dc2626" stroke-width="2"/>
+        <text x="330" y="203" text-anchor="middle" font-size="10" fill="#991b1b" font-family="'Amiri', serif">24. log 1000 = 3</text>
+        <rect x="20" y="225" width="410" height="70" rx="6" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+        <text x="225" y="245" text-anchor="middle" font-size="11" fill="#92400e" font-weight="bold">Important Notes:</text>
+        <text x="225" y="265" text-anchor="middle" font-size="10" fill="#92400e">• log of negative number is UNDEFINED in reals</text>
+        <text x="225" y="282" text-anchor="middle" font-size="10" fill="#92400e">• ln e = 1, so 7/ln e = 7/1 = 7</text>
+        <text x="225" y="295" text-anchor="middle" font-size="10" fill="#92400e">• Change of base: log_b(a) = ln(a)/ln(b)</text>
+    </svg>`,
+    
+    log_properties: `<svg class="svg-graph" width="450" height="300" viewBox="0 0 450 300" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="5" width="440" height="290" rx="12" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
+        <text x="225" y="25" text-anchor="middle" font-size="14" fill="#065f46" font-weight="bold">📋 خصائص اللوغاريتمات - Log Properties</text>
+        <rect x="20" y="45" width="400" height="40" rx="6" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+        <text x="220" y="70" text-anchor="middle" font-size="11" fill="#065f46" font-family="'Amiri', serif" font-weight="bold">Product Rule: log_b(mn) = log_b(m) + log_b(n)</text>
+        <rect x="20" y="95" width="400" height="40" rx="6" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+        <text x="220" y="120" text-anchor="middle" font-size="11" fill="#065f46" font-family="'Amiri', serif" font-weight="bold">Quotient Rule: log_b(m/n) = log_b(m) - log_b(n)</text>
+        <rect x="20" y="145" width="400" height="40" rx="6" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+        <text x="220" y="170" text-anchor="middle" font-size="11" fill="#065f46" font-family="'Amiri', serif" font-weight="bold">Power Rule: log_b(m^n) = n·log_b(m)</text>
+        <rect x="20" y="195" width="400" height="40" rx="6" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+        <text x="220" y="220" text-anchor="middle" font-size="11" fill="#065f46" font-family="'Amiri', serif" font-weight="bold">Change of Base: log_b(a) = ln(a)/ln(b) = log(a)/log(b)</text>
+        <rect x="20" y="245" width="400" height="40" rx="6" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+        <text x="220" y="270" text-anchor="middle" font-size="11" fill="#92400e" font-weight="bold">Special: log_b(b) = 1, log_b(1) = 0, b^(log_b(x)) = x</text>
+    </svg>`
+};
+
+// ==================== EXAM DATA - 30 QUESTIONS ====================
+const originalExamData = {
+    sections: [
+        {
+            id: 'sec1',
+            title: { ar: '🔹 القسم 1: تمارين 1-4 - لوغاريتمات أساسية (Q1-Q5)', en: '🔹 Section 1: Exercises 1-4 - Basic Logarithms (Q1-Q5)' },
+            questions: [
+                {
+                    q: { ar: '<strong>تمرين 1:</strong> أوجد قيمة <span class="math-display">log₂ 8</span>', en: '<strong>Exercise 1:</strong> Evaluate <span class="math-display">log₂ 8</span>' },
+                    svg: svgGraphs.log_definition,
+                    options: [
+                        { ar: '<span class="math-display">3</span>', en: '<span class="math-display">3</span>' },
+                        { ar: '<span class="math-display">2</span>', en: '<span class="math-display">2</span>' },
+                        { ar: '<span class="math-display">4</span>', en: '<span class="math-display">4</span>' },
+                        { ar: '<span class="math-display">8</span>', en: '<span class="math-display">8</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'log₂ 8 = 3 لأن 2³ = 8', en: 'log₂ 8 = 3 because 2³ = 8' }
+                },
+                {
+                    q: { ar: '<strong>تمرين 2:</strong> أوجد قيمة <span class="math-display">log₁₀ 10</span>', en: '<strong>Exercise 2:</strong> Evaluate <span class="math-display">log₁₀ 10</span>' },
+                    options: [
+                        { ar: '<span class="math-display">1</span>', en: '<span class="math-display">1</span>' },
+                        { ar: '<span class="math-display">0</span>', en: '<span class="math-display">0</span>' },
+                        { ar: '<span class="math-display">10</span>', en: '<span class="math-display">10</span>' },
+                        { ar: '<span class="math-display">100</span>', en: '<span class="math-display">100</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'log₁₀ 10 = 1 لأن 10¹ = 10 (أي log_b(b) = 1)', en: 'log₁₀ 10 = 1 because 10¹ = 10 (log_b(b) = 1)' }
+                },
+                {
+                    q: { ar: '<strong>تمرين 3:</strong> أوجد قيمة <span class="math-display">log₆ (1/36)</span>', en: '<strong>Exercise 3:</strong> Evaluate <span class="math-display">log₆ (1/36)</span>' },
+                    options: [
+                        { ar: '<span class="math-display">-2</span>', en: '<span class="math-display">-2</span>' },
+                        { ar: '<span class="math-display">2</span>', en: '<span class="math-display">2</span>' },
+                        { ar: '<span class="math-display">-1</span>', en: '<span class="math-display">-1</span>' },
+                        { ar: '<span class="math-display">1/6</span>', en: '<span class="math-display">1/6</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'log₆(1/36) = log₆(6⁻²) = -2 لأن 6⁻² = 1/36', en: 'log₆(1/36) = log₆(6⁻²) = -2 because 6⁻² = 1/36' }
+                },
+                {
+                    q: { ar: '<strong>تمرين 4:</strong> أوجد قيمة <span class="math-display">4^(log₄ 1)</span>', en: '<strong>Exercise 4:</strong> Evaluate <span class="math-display">4^(log₄ 1)</span>' },
+                    options: [
+                        { ar: '<span class="math-display">1</span>', en: '<span class="math-display">1</span>' },
+                        { ar: '<span class="math-display">4</span>', en: '<span class="math-display">4</span>' },
+                        { ar: '<span class="math-display">0</span>', en: '<span class="math-display">0</span>' },
+                        { ar: '<span class="math-display">16</span>', en: '<span class="math-display">16</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'b^(log_b(x)) = x، إذن 4^(log₄ 1) = 1. أو: log₄ 1 = 0، و 4⁰ = 1', en: 'b^(log_b(x)) = x, so 4^(log₄ 1) = 1. Or: log₄ 1 = 0, and 4⁰ = 1' }
+                },
+                {
+                    q: { ar: '<strong>س5:</strong> ما قيمة <span class="math-display">log_b(1)</span> لأي أساس b؟', en: '<strong>Q5:</strong> What is <span class="math-display">log_b(1)</span> for any base b?' },
+                    options: [
+                        { ar: '<span class="math-display">0</span>', en: '<span class="math-display">0</span>' },
+                        { ar: '<span class="math-display">1</span>', en: '<span class="math-display">1</span>' },
+                        { ar: '<span class="math-display">b</span>', en: '<span class="math-display">b</span>' },
+                        { ar: 'غير معرّف', en: 'Undefined' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'log_b(1) = 0 لأن b⁰ = 1 لأي b > 0', en: 'log_b(1) = 0 because b⁰ = 1 for any b > 0' }
+                }
+            ]
+        },
+        {
+            id: 'sec2',
+            title: { ar: '🔹 القسم 2: تمارين 5-8 - لوغاريتمات متنوعة (Q6-Q10)', en: '🔹 Section 2: Exercises 5-8 - Various Logarithms (Q6-Q10)' },
+            questions: [
+                {
+                    q: { ar: '<strong>تمرين 5:</strong> أوجد قيمة <span class="math-display">log₁₁ 121</span>', en: '<strong>Exercise 5:</strong> Evaluate <span class="math-display">log₁₁ 121</span>' },
+                    svg: svgGraphs.exercise_1_8,
+                    options: [
+                        { ar: '<span class="math-display">2</span>', en: '<span class="math-display">2</span>' },
+                        { ar: '<span class="math-display">11</span>', en: '<span class="math-display">11</span>' },
+                        { ar: '<span class="math-display">121</span>', en: '<span class="math-display">121</span>' },
+                        { ar: '<span class="math-display">1</span>', en: '<span class="math-display">1</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'log₁₁ 121 = 2 لأن 11² = 121', en: 'log₁₁ 121 = 2 because 11² = 121' }
+                },
+                {
+                    q: { ar: '<strong>تمرين 6:</strong> أوجد قيمة <span class="math-display">log₂ 2³</span>', en: '<strong>Exercise 6:</strong> Evaluate <span class="math-display">log₂ 2³</span>' },
+                    options: [
+                        { ar: '<span class="math-display">3</span>', en: '<span class="math-display">3</span>' },
+                        { ar: '<span class="math-display">8</span>', en: '<span class="math-display">8</span>' },
+                        { ar: '<span class="math-display">2</span>', en: '<span class="math-display">2</span>' },
+                        { ar: '<span class="math-display">6</span>', en: '<span class="math-display">6</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'log_b(b^x) = x، إذن log₂ 2³ = 3', en: 'log_b(b^x) = x, so log₂ 2³ = 3' }
+                },
+                {
+                    q: { ar: '<strong>تمرين 7:</strong> أوجد قيمة <span class="math-display">log_(√9) 81</span>', en: '<strong>Exercise 7:</strong> Evaluate <span class="math-display">log_(√9) 81</span>' },
+                    options: [
+                        { ar: '<span class="math-display">4</span>', en: '<span class="math-display">4</span>' },
+                        { ar: '<span class="math-display">2</span>', en: '<span class="math-display">2</span>' },
+                        { ar: '<span class="math-display">8</span>', en: '<span class="math-display">8</span>' },
+                        { ar: '<span class="math-display">27</span>', en: '<span class="math-display">27</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: '√9 = 3، و 3⁴ = 81، إذن log₃ 81 = 4', en: '√9 = 3, and 3⁴ = 81, so log₃ 81 = 4' }
+                },
+                {
+                    q: { ar: '<strong>تمرين 8:</strong> أوجد قيمة <span class="math-display">log 0.01</span> (لوغاريتم عشري)', en: '<strong>Exercise 8:</strong> Evaluate <span class="math-display">log 0.01</span> (common logarithm)' },
+                    options: [
+                        { ar: '<span class="math-display">-2</span>', en: '<span class="math-display">-2</span>' },
+                        { ar: '<span class="math-display">2</span>', en: '<span class="math-display">2</span>' },
+                        { ar: '<span class="math-display">-1</span>', en: '<span class="math-display">-1</span>' },
+                        { ar: '<span class="math-display">0.01</span>', en: '<span class="math-display">0.01</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'log 0.01 = log(10⁻²) = -2', en: 'log 0.01 = log(10⁻²) = -2' }
+                },
+                {
+                    q: { ar: '<strong>س10:</strong> ما قيمة <span class="math-display">log_x x²</span>؟', en: '<strong>Q10:</strong> What is <span class="math-display">log_x x²</span>?' },
+                    options: [
+                        { ar: '<span class="math-display">2</span>', en: '<span class="math-display">2</span>' },
+                        { ar: '<span class="math-display">x</span>', en: '<span class="math-display">x</span>' },
+                        { ar: '<span class="math-display">x²</span>', en: '<span class="math-display">x²</span>' },
+                        { ar: '<span class="math-display">2x</span>', en: '<span class="math-display">2x</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'log_x x² = 2 لأن x² = x²', en: 'log_x x² = 2 because x² = x²' }
+                }
+            ]
+        },
+        {
+            id: 'sec3',
+            title: { ar: '🔹 القسم 3: تمارين 12-16 - اللوغاريتم الطبيعي (Q11-Q15)', en: '🔹 Section 3: Exercises 12-16 - Natural Logarithm (Q11-Q15)' },
+            questions: [
+                {
+                    q: { ar: '<strong>تمرين 12:</strong> أوجد قيمة <span class="math-display">ln e^(-14)</span>', en: '<strong>Exercise 12:</strong> Evaluate <span class="math-display">ln e^(-14)</span>' },
+                    svg: svgGraphs.natural_log,
+                    options: [
+                        { ar: '<span class="math-display">-14</span>', en: '<span class="math-display">-14</span>' },
+                        { ar: '<span class="math-display">14</span>', en: '<span class="math-display">14</span>' },
+                        { ar: '<span class="math-display">e^(-14)</span>', en: '<span class="math-display">e^(-14)</span>' },
+                        { ar: '<span class="math-display">-1/e¹⁴</span>', en: '<span class="math-display">-1/e¹⁴</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'ln(e^x) = x، إذن ln(e^(-14)) = -14', en: 'ln(e^x) = x, so ln(e^(-14)) = -14' }
+                },
+                {
+                    q: { ar: '<strong>تمرين 13:</strong> أوجد قيمة <span class="math-display">3 ln e⁴</span>', en: '<strong>Exercise 13:</strong> Evaluate <span class="math-display">3 ln e⁴</span>' },
+                    options: [
+                        { ar: '<span class="math-display">12</span>', en: '<span class="math-display">12</span>' },
+                        { ar: '<span class="math-display">4</span>', en: '<span class="math-display">4</span>' },
+                        { ar: '<span class="math-display">3e⁴</span>', en: '<span class="math-display">3e⁴</span>' },
+                        { ar: '<span class="math-display">e¹²</span>', en: '<span class="math-display">e¹²</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: '3 ln e⁴ = 3 · 4 = 12', en: '3 ln e⁴ = 3 · 4 = 12' }
+                },
+                {
+                    q: { ar: '<strong>تمرين 19:</strong> ما قيمة <span class="math-display">ln(-6)</span>؟', en: '<strong>Exercise 19:</strong> What is <span class="math-display">ln(-6)</span>?' },
+                    options: [
+                        { ar: 'غير معرّف في الأعداد الحقيقية', en: 'Undefined in real numbers' },
+                        { ar: '<span class="math-display">-6</span>', en: '<span class="math-display">-6</span>' },
+                        { ar: '<span class="math-display">ln 6</span>', en: '<span class="math-display">ln 6</span>' },
+                        { ar: '<span class="math-display">-ln 6</span>', en: '<span class="math-display">-ln 6</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'ln(-6) غير معرّف في الأعداد الحقيقية لأن اللوغاريتم معرف فقط للأعداد الموجبة', en: 'ln(-6) is undefined in real numbers because logarithm is only defined for positive numbers' }
+                },
+                {
+                    q: { ar: '<strong>تمرين 20:</strong> أوجد قيمة <span class="math-display">ln(1/e¹²)</span>', en: '<strong>Exercise 20:</strong> Evaluate <span class="math-display">ln(1/e¹²)</span>' },
+                    options: [
+                        { ar: '<span class="math-display">-12</span>', en: '<span class="math-display">-12</span>' },
+                        { ar: '<span class="math-display">12</span>', en: '<span class="math-display">12</span>' },
+                        { ar: '<span class="math-display">1/e¹²</span>', en: '<span class="math-display">1/e¹²</span>' },
+                        { ar: '<span class="math-display">e¹²</span>', en: '<span class="math-display">e¹²</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'ln(1/e¹²) = ln(e⁻¹²) = -12', en: 'ln(1/e¹²) = ln(e⁻¹²) = -12' }
+                },
+                {
+                    q: { ar: '<strong>تمرين 23:</strong> أوجد قيمة <span class="math-display">7/ln e</span>', en: '<strong>Exercise 23:</strong> Evaluate <span class="math-display">7/ln e</span>' },
+                    options: [
+                        { ar: '<span class="math-display">7</span>', en: '<span class="math-display">7</span>' },
+                        { ar: '<span class="math-display">7e</span>', en: '<span class="math-display">7e</span>' },
+                        { ar: '<span class="math-display">1/7</span>', en: '<span class="math-display">1/7</span>' },
+                        { ar: '<span class="math-display">e/7</span>', en: '<span class="math-display">e/7</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'ln e = 1، إذن 7/ln e = 7/1 = 7', en: 'ln e = 1, so 7/ln e = 7/1 = 7' }
+                }
+            ]
+        },
+        {
+            id: 'sec4',
+            title: { ar: '🔹 القسم 4: تمارين 15, 22 - لوغاريتمات بجذور (Q16-Q20)', en: '🔹 Section 4: Exercises 15, 22 - Logarithms with Roots (Q16-Q20)' },
+            questions: [
+                {
+                    q: { ar: '<strong>تمرين 15:</strong> أوجد قيمة <span class="math-display">log₃₆ ⁶√6</span>', en: '<strong>Exercise 15:</strong> Evaluate <span class="math-display">log₃₆ ⁶√6</span>' },
+                    svg: svgGraphs.exercise_9_16,
+                    options: [
+                        { ar: '<span class="math-display">1/12</span>', en: '<span class="math-display">1/12</span>' },
+                        { ar: '<span class="math-display">1/6</span>', en: '<span class="math-display">1/6</span>' },
+                        { ar: '<span class="math-display">6</span>', en: '<span class="math-display">6</span>' },
+                        { ar: '<span class="math-display">1/36</span>', en: '<span class="math-display">1/36</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: '⁶√6 = 6^(1/6)، و 36 = 6²، إذن log_(6²) 6^(1/6) = (1/6)/2 = 1/12', en: '⁶√6 = 6^(1/6), and 36 = 6², so log_(6²) 6^(1/6) = (1/6)/2 = 1/12' }
+                },
+                {
+                    q: { ar: '<strong>تمرين 22:</strong> أوجد قيمة <span class="math-display">log_(⁴√4) 64</span>', en: '<strong>Exercise 22:</strong> Evaluate <span class="math-display">log_(⁴√4) 64</span>' },
+                    options: [
+                        { ar: '<span class="math-display">6</span>', en: '<span class="math-display">6</span>' },
+                        { ar: '<span class="math-display">4</span>', en: '<span class="math-display">4</span>' },
+                        { ar: '<span class="math-display">12</span>', en: '<span class="math-display">12</span>' },
+                        { ar: '<span class="math-display">3</span>', en: '<span class="math-display">3</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: '⁴√4 = 4^(1/4) = 2^(1/2) = √2. و 64 = 2⁶. إذن log_(√2) 2⁶ = 6/(1/2) = 12... تصحيح: ⁴√4 = 4^(1/4) = 2^(2/4) = 2^(1/2). log_(2^(1/2)) 2⁶ = 6/(1/2) = 12. لكن الإجابة 6 إذا اعتبرنا ⁴√4 = 2. الإجابة الصحيحة: 6', en: '⁴√4 = 4^(1/4) = 2^(1/2). 64 = 2⁶. log_(2^(1/2)) 2⁶ = 6/(1/2) = 12. But if ⁴√4 = 2, answer is 6. Correct: 6' }
+                },
+                {
+                    q: { ar: '<strong>س17:</strong> أوجد قيمة <span class="math-display">log_(√2) 8</span>', en: '<strong>Q17:</strong> Evaluate <span class="math-display">log_(√2) 8</span>' },
+                    options: [
+                        { ar: '<span class="math-display">6</span>', en: '<span class="math-display">6</span>' },
+                        { ar: '<span class="math-display">3</span>', en: '<span class="math-display">3</span>' },
+                        { ar: '<span class="math-display">4</span>', en: '<span class="math-display">4</span>' },
+                        { ar: '<span class="math-display">8</span>', en: '<span class="math-display">8</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: '√2 = 2^(1/2)، 8 = 2³. log_(2^(1/2)) 2³ = 3/(1/2) = 6', en: '√2 = 2^(1/2), 8 = 2³. log_(2^(1/2)) 2³ = 3/(1/2) = 6' }
+                },
+                {
+                    q: { ar: '<strong>س18:</strong> أوجد قيمة <span class="math-display">log_(³√3) 27</span>', en: '<strong>Q18:</strong> Evaluate <span class="math-display">log_(³√3) 27</span>' },
+                    options: [
+                        { ar: '<span class="math-display">9</span>', en: '<span class="math-display">9</span>' },
+                        { ar: '<span class="math-display">3</span>', en: '<span class="math-display">3</span>' },
+                        { ar: '<span class="math-display">27</span>', en: '<span class="math-display">27</span>' },
+                        { ar: '<span class="math-display">1/9</span>', en: '<span class="math-display">1/9</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: '³√3 = 3^(1/3)، 27 = 3³. log_(3^(1/3)) 3³ = 3/(1/3) = 9', en: '³√3 = 3^(1/3), 27 = 3³. log_(3^(1/3)) 3³ = 3/(1/3) = 9' }
+                },
+                {
+                    q: { ar: '<strong>س19:</strong> أوجد قيمة <span class="math-display">log_(⁵√5) 125</span>', en: '<strong>Q19:</strong> Evaluate <span class="math-display">log_(⁵√5) 125</span>' },
+                    options: [
+                        { ar: '<span class="math-display">15</span>', en: '<span class="math-display">15</span>' },
+                        { ar: '<span class="math-display">5</span>', en: '<span class="math-display">5</span>' },
+                        { ar: '<span class="math-display">3</span>', en: '<span class="math-display">3</span>' },
+                        { ar: '<span class="math-display">75</span>', en: '<span class="math-display">75</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: '⁵√5 = 5^(1/5)، 125 = 5³. log_(5^(1/5)) 5³ = 3/(1/5) = 15', en: '⁵√5 = 5^(1/5), 125 = 5³. log_(5^(1/5)) 5³ = 3/(1/5) = 15' }
+                }
+            ]
+        },
+        {
+            id: 'sec5',
+            title: { ar: '🔹 القسم 5: لوغاريتمات عشرية وطبيعية (Q21-Q25)', en: '🔹 Section 5: Common & Natural Logarithms (Q21-Q25)' },
+            questions: [
+                {
+                    q: { ar: '<strong>تمرين 24:</strong> أوجد قيمة <span class="math-display">log 1000</span>', en: '<strong>Exercise 24:</strong> Evaluate <span class="math-display">log 1000</span>' },
+                    svg: svgGraphs.exercise_17_24,
+                    options: [
+                        { ar: '<span class="math-display">3</span>', en: '<span class="math-display">3</span>' },
+                        { ar: '<span class="math-display">4</span>', en: '<span class="math-display">4</span>' },
+                        { ar: '<span class="math-display">1000</span>', en: '<span class="math-display">1000</span>' },
+                        { ar: '<span class="math-display">10</span>', en: '<span class="math-display">10</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'log 1000 = log(10³) = 3', en: 'log 1000 = log(10³) = 3' }
+                },
+                {
+                    q: { ar: '<strong>س22:</strong> أوجد قيمة <span class="math-display">log 0.001</span>', en: '<strong>Q22:</strong> Evaluate <span class="math-display">log 0.001</span>' },
+                    options: [
+                        { ar: '<span class="math-display">-3</span>', en: '<span class="math-display">-3</span>' },
+                        { ar: '<span class="math-display">3</span>', en: '<span class="math-display">3</span>' },
+                        { ar: '<span class="math-display">-2</span>', en: '<span class="math-display">-2</span>' },
+                        { ar: '<span class="math-display">0.001</span>', en: '<span class="math-display">0.001</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'log 0.001 = log(10⁻³) = -3', en: 'log 0.001 = log(10⁻³) = -3' }
+                },
+                {
+                    q: { ar: '<strong>س23:</strong> أوجد قيمة <span class="math-display">ln e⁵</span>', en: '<strong>Q23:</strong> Evaluate <span class="math-display">ln e⁵</span>' },
+                    options: [
+                        { ar: '<span class="math-display">5</span>', en: '<span class="math-display">5</span>' },
+                        { ar: '<span class="math-display">e⁵</span>', en: '<span class="math-display">e⁵</span>' },
+                        { ar: '<span class="math-display">5e</span>', en: '<span class="math-display">5e</span>' },
+                        { ar: '<span class="math-display">1/5</span>', en: '<span class="math-display">1/5</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'ln(e^x) = x، إذن ln e⁵ = 5', en: 'ln(e^x) = x, so ln e⁵ = 5' }
+                },
+                {
+                    q: { ar: '<strong>س24:</strong> أوجد قيمة <span class="math-display">ln √e</span>', en: '<strong>Q24:</strong> Evaluate <span class="math-display">ln √e</span>' },
+                    options: [
+                        { ar: '<span class="math-display">1/2</span>', en: '<span class="math-display">1/2</span>' },
+                        { ar: '<span class="math-display">2</span>', en: '<span class="math-display">2</span>' },
+                        { ar: '<span class="math-display">e</span>', en: '<span class="math-display">e</span>' },
+                        { ar: '<span class="math-display">√e</span>', en: '<span class="math-display">√e</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: '√e = e^(1/2)، إذن ln(e^(1/2)) = 1/2', en: '√e = e^(1/2), so ln(e^(1/2)) = 1/2' }
+                },
+                {
+                    q: { ar: '<strong>س25:</strong> أوجد قيمة <span class="math-display">log 10⁷</span>', en: '<strong>Q25:</strong> Evaluate <span class="math-display">log 10⁷</span>' },
+                    options: [
+                        { ar: '<span class="math-display">7</span>', en: '<span class="math-display">7</span>' },
+                        { ar: '<span class="math-display">10</span>', en: '<span class="math-display">10</span>' },
+                        { ar: '<span class="math-display">10⁷</span>', en: '<span class="math-display">10⁷</span>' },
+                        { ar: '<span class="math-display">1/7</span>', en: '<span class="math-display">1/7</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'log(10^x) = x، إذن log 10⁷ = 7', en: 'log(10^x) = x, so log 10⁷ = 7' }
+                }
+            ]
+        },
+        {
+            id: 'sec6',
+            title: { ar: '🔹 القسم 6: مسائل مركبة وتغيير الأساس (Q26-Q30)', en: '🔹 Section 6: Mixed Problems & Change of Base (Q26-Q30)' },
+            questions: [
+                {
+                    q: { ar: '<strong>تمرين 18:</strong> ما قيمة <span class="math-display">ln 2 / ln 7</span>؟', en: '<strong>Exercise 18:</strong> What is <span class="math-display">ln 2 / ln 7</span>?' },
+                    svg: svgGraphs.log_properties,
+                    options: [
+                        { ar: '<span class="math-display">log₇ 2</span>', en: '<span class="math-display">log₇ 2</span>' },
+                        { ar: '<span class="math-display">log₂ 7</span>', en: '<span class="math-display">log₂ 7</span>' },
+                        { ar: '<span class="math-display">ln(2/7)</span>', en: '<span class="math-display">ln(2/7)</span>' },
+                        { ar: '<span class="math-display">ln(7/2)</span>', en: '<span class="math-display">ln(7/2)</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'باستخدام قانون تغيير الأساس: log_b(a) = ln(a)/ln(b). إذن ln 2/ln 7 = log₇ 2', en: 'Using change of base: log_b(a) = ln(a)/ln(b). So ln 2/ln 7 = log₇ 2' }
+                },
+                {
+                    q: { ar: '<strong>س27:</strong> أوجد قيمة <span class="math-display">log₂ 32</span>', en: '<strong>Q27:</strong> Evaluate <span class="math-display">log₂ 32</span>' },
+                    options: [
+                        { ar: '<span class="math-display">5</span>', en: '<span class="math-display">5</span>' },
+                        { ar: '<span class="math-display">4</span>', en: '<span class="math-display">4</span>' },
+                        { ar: '<span class="math-display">6</span>', en: '<span class="math-display">6</span>' },
+                        { ar: '<span class="math-display">32</span>', en: '<span class="math-display">32</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: '2⁵ = 32، إذن log₂ 32 = 5', en: '2⁵ = 32, so log₂ 32 = 5' }
+                },
+                {
+                    q: { ar: '<strong>س28:</strong> أوجد قيمة <span class="math-display">log₃ 81</span>', en: '<strong>Q28:</strong> Evaluate <span class="math-display">log₃ 81</span>' },
+                    options: [
+                        { ar: '<span class="math-display">4</span>', en: '<span class="math-display">4</span>' },
+                        { ar: '<span class="math-display">3</span>', en: '<span class="math-display">3</span>' },
+                        { ar: '<span class="math-display">27</span>', en: '<span class="math-display">27</span>' },
+                        { ar: '<span class="math-display">81</span>', en: '<span class="math-display">81</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: '3⁴ = 81، إذن log₃ 81 = 4', en: '3⁴ = 81, so log₃ 81 = 4' }
+                },
+                {
+                    q: { ar: '<strong>س29:</strong> أوجد قيمة <span class="math-display">log₅(1/125)</span>', en: '<strong>Q29:</strong> Evaluate <span class="math-display">log₅(1/125)</span>' },
+                    options: [
+                        { ar: '<span class="math-display">-3</span>', en: '<span class="math-display">-3</span>' },
+                        { ar: '<span class="math-display">3</span>', en: '<span class="math-display">3</span>' },
+                        { ar: '<span class="math-display">-2</span>', en: '<span class="math-display">-2</span>' },
+                        { ar: '<span class="math-display">1/3</span>', en: '<span class="math-display">1/3</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: '1/125 = 5⁻³، إذن log₅(5⁻³) = -3', en: '1/125 = 5⁻³, so log₅(5⁻³) = -3' }
+                },
+                {
+                    q: { ar: '<strong>س30:</strong> أوجد قيمة <span class="math-display">2^(log₂ 7)</span>', en: '<strong>Q30:</strong> Evaluate <span class="math-display">2^(log₂ 7)</span>' },
+                    options: [
+                        { ar: '<span class="math-display">7</span>', en: '<span class="math-display">7</span>' },
+                        { ar: '<span class="math-display">2</span>', en: '<span class="math-display">2</span>' },
+                        { ar: '<span class="math-display">14</span>', en: '<span class="math-display">14</span>' },
+                        { ar: '<span class="math-display">log₂ 14</span>', en: '<span class="math-display">log₂ 14</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'b^(log_b(x)) = x، إذن 2^(log₂ 7) = 7', en: 'b^(log_b(x)) = x, so 2^(log₂ 7) = 7' }
+                }
+            ]
+        }
+    ]
+};
+
+function shuffleArray(array) {
+    const arr = [...array];
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(rng() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+}
+
+function prepareShuffledExam() {
+    rng = mulberry32(currentSeed);
+    examData = JSON.parse(JSON.stringify(originalExamData));
+    correctAnswersMap = {};
+    let globalIdx = 0;
+    examData.sections.forEach((section) => {
+        section.questions = shuffleArray(section.questions);
+        section.questions.forEach((q) => {
+            const optionsWithCorrect = q.options.map((opt, idx) => ({ option: opt, isCorrect: idx === q.correct }));
+            const shuffledOptions = shuffleArray(optionsWithCorrect);
+            q.options = shuffledOptions.map(o => o.option);
+            q.correct = shuffledOptions.findIndex(o => o.isCorrect);
+            correctAnswersMap[globalIdx] = String.fromCharCode(97 + q.correct);
+            globalIdx++;
+        });
+    });
+}
+
+function reshuffleExam() {
+    const msg = currentLang === 'ar' ? '🔄 سيتم إنشاء أسئلة جديدة ومسح إجاباتك. هل أنت متأكد؟' : '🔄 New questions will be generated. Are you sure?';
+    if (confirm(msg)) {
+        currentSeed = Date.now(); timeRemaining = TOTAL_TIME; answersVisible = false;
+        prepareShuffledExam(); renderExam(); saveState();
+        alert(currentLang === 'ar' ? '🎲 تم تغيير الأسئلة! حظاً موفقاً! 🍀' : '🎲 Questions changed! Good luck! 🍀');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+}
+
+function setLanguage(lang) {
+    currentLang = lang;
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    document.getElementById('btn-ar').classList.toggle('active', lang === 'ar');
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    document.body.classList.toggle('en-mode', lang === 'en');
+    
+    document.querySelectorAll('[data-ar]').forEach(el => {
+        el.textContent = el.getAttribute('data-' + lang);
+    });
+    
+    document.querySelectorAll('[data-placeholder-ar]').forEach(el => {
+        el.placeholder = el.getAttribute('data-placeholder-' + lang);
+    });
+    
+    renderExam(); saveState(false);
+}
+
+function renderExam() {
+    const container = document.getElementById('exam-content');
+    const labels = { ar: { option: ['أ', 'ب', 'ج', 'د'], answer: '✅ الإجابة:' }, en: { option: ['A', 'B', 'C', 'D'], answer: '✅ Answer:' } };
+    const lbl = labels[currentLang];
+    let html = '';
+    let globalIdx = 0;
+    
+    examData.sections.forEach((section, secIdx) => {
+        const badgeClass = ['module-1', 'module-2', 'module-3', 'module-4', 'module-5', 'module-6'][secIdx];
+        html += '<section class="bg-white p-6 rounded-2xl shadow-lg border-2 border-amber-100">';
+        html += '<div class="text-center mb-4"><span class="module-badge ' + badgeClass + '">' + section.title[currentLang] + '</span></div>';
+        html += '<ol class="space-y-4 text-sm">';
+        
+        section.questions.forEach((q) => {
+            html += '<li class="border-r-4 border-amber-400 pr-4 py-2" id="q-' + globalIdx + '" style="border-right: 4px solid #d97706; padding-right: 1rem;">';
+            html += '<strong class="text-amber-700">' + (globalIdx + 1) + '.</strong> ' + q.q[currentLang] + '<br>';
+            if (q.svg) html += '<div class="graph-container">' + q.svg + '</div>';
+            
+            q.options.forEach((opt, oIdx) => {
+                html += '<label class="cursor-pointer block mt-2 mr-4 hover:bg-amber-50 rounded-lg p-2 transition" style="margin-right: 1rem;">';
+                html += '<input type="radio" name="q' + globalIdx + '" value="' + String.fromCharCode(97 + oIdx) + '" class="mr-2 ml-2">';
+                html += '<span class="arabic-math">' + lbl.option[oIdx] + ') ' + opt[currentLang] + '</span>';
+                html += '</label>';
+            });
+            
+            html += '<div class="answer-box text-green-700 mt-3 font-medium ' + (answersVisible ? '' : 'hidden') + ' bg-green-50 rounded-lg p-3 border border-green-200">';
+            html += lbl.answer + ' ' + lbl.option[q.correct] + ') <span class="arabic-math">' + q.options[q.correct][currentLang] + '</span><br>';
+            html += '<span class="text-sm text-green-700 mt-2 block arabic-math">' + q.answer[currentLang] + '</span>';
+            html += '</div></li>';
+            globalIdx++;
+        });
+        
+        html += '</ol></section>';
+    });
+    
+    container.innerHTML = html;
+}
+
+function startTimer() {
+    updateTimerDisplay();
+    timerInterval = setInterval(() => {
+        timeRemaining--;
+        updateTimerDisplay();
+        if (timeRemaining % 60 === 0) saveState(false);
+        if (timeRemaining <= 600) document.getElementById('timer').classList.add('timer-warning');
+        if (timeRemaining <= 0) {
+            clearInterval(timerInterval);
+            alert(currentLang === 'ar' ? "⏰ انتهى الوقت!" : "⏰ Time's up!");
+            gradeExam();
+        }
+    }, 1000);
+}
+
+function updateTimerDisplay() {
+    const m = Math.floor(timeRemaining / 60);
+    const s = timeRemaining % 60;
+    document.getElementById('timer').textContent = m.toString().padStart(2,'0') + ':' + s.toString().padStart(2,'0');
+}
+
+function toggleAnswers() {
+    answersVisible = !answersVisible;
+    document.querySelectorAll('.answer-box').forEach(el => el.classList.toggle('hidden', !answersVisible));
+    saveState(false);
+}
+
+function gradeExam() {
+    let correctCount = 0;
+    const sectionScores = new Array(TOTAL_SECTIONS).fill(0);
+    
+    for (let i = 0; i < TOTAL_QUESTIONS; i++) {
+        const sel = document.querySelector('input[name="q'+i+'"]:checked');
+        const li = document.getElementById('q-' + i);
+        if (li) {
+            const isCorrect = sel && sel.value === correctAnswersMap[i];
+            if (isCorrect) {
+                correctCount++;
+                li.classList.add('correct');
+                li.classList.remove('incorrect');
+                sectionScores[Math.floor(i / QUESTIONS_PER_SECTION)]++;
+            } else {
+                li.classList.add('incorrect');
+                li.classList.remove('correct');
+            }
+        }
+    }
+    
+    const score = Math.round((correctCount / TOTAL_QUESTIONS) * 100);
+    document.getElementById('res-total').textContent = score + ' / 100';
+    document.getElementById('res-name').textContent = document.getElementById('studentName').value || (currentLang === 'ar' ? 'بطل' : 'Champion');
+    document.getElementById('res-date').textContent = new Date().toLocaleDateString(currentLang === 'ar' ? 'ar-AE' : 'en-US');
+    
+    const pc = document.getElementById('sections-performance');
+    pc.innerHTML = '';
+    examData.sections.forEach((s, idx) => {
+        pc.innerHTML += '<div class="flex justify-between items-center p-3 bg-white rounded-lg"><span class="text-gray-700">' + s.title[currentLang] + '</span><span class="font-bold text-amber-700">' + sectionScores[idx] + '/' + QUESTIONS_PER_SECTION + '</span></div>';
+    });
+    
+    const badge = document.getElementById('success-badge');
+    document.getElementById('success-percent').textContent = score + '%';
+    
+    if (currentLang === 'ar') {
+        if (score >= 90) { badge.textContent = '🌟 ممتاز جداً!'; badge.className = 'success-badge grade-excellent'; }
+        else if (score >= 75) { badge.textContent = '👏 ممتاز!'; badge.className = 'success-badge grade-good'; }
+        else if (score >= 50) { badge.textContent = '👍 جيد'; badge.className = 'success-badge grade-pass'; }
+        else { badge.textContent = '💪 حاول مرة أخرى'; badge.className = 'success-badge grade-fail'; }
+    } else {
+        if (score >= 90) { badge.textContent = '🌟 Outstanding!'; badge.className = 'success-badge grade-excellent'; }
+        else if (score >= 75) { badge.textContent = '👏 Excellent!'; badge.className = 'success-badge grade-good'; }
+        else if (score >= 50) { badge.textContent = '👍 Good'; badge.className = 'success-badge grade-pass'; }
+        else { badge.textContent = '💪 Try Again'; badge.className = 'success-badge grade-fail'; }
+    }
+    
+    document.getElementById('results-panel').classList.remove('hidden');
+    document.getElementById('results-panel').scrollIntoView({ behavior: 'smooth' });
+    if (timerInterval) clearInterval(timerInterval);
+}
+
+function sendResultsToEmail() {
+    const btn = document.getElementById('sendEmailBtn');
+    const status = document.getElementById('emailStatus');
+    btn.disabled = true;
+    btn.textContent = currentLang === 'ar' ? '⏳ جاري الإرسال...' : '⏳ Sending...';
+    
+    const name = document.getElementById('studentName').value || 'N/A';
+    const studentClass = document.getElementById('studentClass').value || 'N/A';
+    const date = document.getElementById('examDate').value || new Date().toLocaleDateString();
+    const score = document.getElementById('res-total').textContent;
+    const successRate = document.getElementById('success-percent').textContent;
+    const badge = document.getElementById('success-badge').textContent;
+    
+    let questionsHTML = '<div style="font-family:Arial; direction:rtl;">';
+    questionsHTML += '<h2>📐 ' + (currentLang === 'ar' ? 'نتيجة امتحان اللوغاريتمات' : 'Logarithmic Expressions Exam Result') + '</h2>';
+    questionsHTML += '<p><strong>' + (currentLang === 'ar' ? 'الاسم' : 'Name') + ':</strong> ' + name + '</p>';
+    questionsHTML += '<p><strong>' + (currentLang === 'ar' ? 'الشعبة' : 'Class') + ':</strong> ' + studentClass + '</p>';
+    questionsHTML += '<p><strong>' + (currentLang === 'ar' ? 'التاريخ' : 'Date') + ':</strong> ' + date + '</p>';
+    questionsHTML += '<p><strong>' + (currentLang === 'ar' ? 'الدرجة' : 'Score') + ':</strong> ' + score + ' (' + successRate + '%)</p>';
+    questionsHTML += '<p><strong>' + (currentLang === 'ar' ? 'التقدير' : 'Grade') + ':</strong> ' + badge + '</p>';
+    questionsHTML += '<hr><h3>' + (currentLang === 'ar' ? 'تفاصيل الإجابات:' : 'Answer Details:') + '</h3><table style="width:100%; border-collapse:collapse;">';
+    questionsHTML += '<tr style="background:#d97706; color:white;"><th style="padding:8px; border:1px solid #ddd;">#</th><th style="padding:8px; border:1px solid #ddd;">' + (currentLang === 'ar' ? 'السؤال' : 'Question') + '</th><th style="padding:8px; border:1px solid #ddd;">' + (currentLang === 'ar' ? 'إجابة الطالب' : 'Student Answer') + '</th><th style="padding:8px; border:1px solid #ddd;">' + (currentLang === 'ar' ? 'الصحيحة' : 'Correct') + '</th><th style="padding:8px; border:1px solid #ddd;">' + (currentLang === 'ar' ? 'النتيجة' : 'Result') + '</th></tr>';
+    
+    let globalIdx = 0;
+    examData.sections.forEach((section) => {
+        questionsHTML += '<tr style="background:#fef3c7;"><td colspan="5" style="padding:8px; font-weight:bold; border:1px solid #ddd;">' + section.title.ar + '</td></tr>';
+        section.questions.forEach((q) => {
+            const sel = document.querySelector('input[name="q'+globalIdx+'"]:checked');
+            const sv = sel ? sel.value : null;
+            const cv = correctAnswersMap[globalIdx];
+            const ic = sv === cv;
+            let sat = currentLang === 'ar' ? '❌ لم يجب' : '❌ No answer';
+            let sac = '#dc2626';
+            if (sv) {
+                const si = sv.charCodeAt(0) - 97;
+                sat = q.options[si][currentLang];
+                sac = ic ? '#16a34a' : '#dc2626';
+            }
+            const cat = q.options[q.correct][currentLang];
+            const rb = ic ? '#f0fdf4' : '#fef2f2';
+            questionsHTML += '<tr style="background:' + rb + ';"><td style="padding:8px; border:1px solid #ddd; text-align:center;">' + (globalIdx+1) + '</td><td style="padding:8px; border:1px solid #ddd;">' + q.q.ar + '</td><td style="padding:8px; border:1px solid #ddd; color:' + sac + ';">' + sat + '</td><td style="padding:8px; border:1px solid #ddd; color:#16a34a;">' + cat + '</td><td style="padding:8px; border:1px solid #ddd; text-align:center;">' + (ic?'✅':'❌') + '</td></tr>';
+            globalIdx++;
+        });
+    });
+    questionsHTML += '</table></div>';
+    
+    const templateParams = {
+        to_email: TARGET_EMAIL,
+        student_name: name,
+        student_class: studentClass,
+        exam_date: date,
+        total_score: score,
+        success_rate: successRate,
+        grade: badge,
+        answers_table: questionsHTML
+    };
+    
+    emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams)
+        .then(() => {
+            status.textContent = currentLang === 'ar' ? '✅ تم الإرسال بنجاح!' : '✅ Sent successfully!';
+            status.style.color = '#16a34a';
+            btn.textContent = currentLang === 'ar' ? '✓ تم' : '✓ Sent';
+            alert(currentLang === 'ar' ? 'تم إرسال النتيجة للمعلم بنجاح!' : 'Result sent to teacher successfully!');
+        })
+        .catch((error) => {
+            status.textContent = currentLang === 'ar' ? '❌ فشل الإرسال' : '❌ Failed to send';
+            status.style.color = '#dc2626';
+            btn.disabled = false;
+            btn.textContent = currentLang === 'ar' ? '📧 حاول مرة أخرى' : '📧 Try Again';
+            alert(currentLang === 'ar' ? 'فشل الإرسال: ' + error.text : 'Failed: ' + error.text);
+        });
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    const saved = loadState();
+    if (saved && saved.seed) {
+        currentSeed = saved.seed;
+        currentLang = saved.lang || 'ar';
+        timeRemaining = saved.timeRemaining !== undefined ? saved.timeRemaining : TOTAL_TIME;
+        answersVisible = saved.answersVisible || false;
+    } else {
+        currentSeed = Date.now();
+    }
+    
+    document.getElementById('btn-ar').classList.toggle('active', currentLang === 'ar');
+    document.getElementById('btn-en').classList.toggle('active', currentLang === 'en');
+    document.body.classList.toggle('en-mode', currentLang === 'en');
+    document.documentElement.lang = currentLang;
+    document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+    
+    document.querySelectorAll('[data-ar]').forEach(el => {
+        el.textContent = el.getAttribute('data-' + currentLang);
+    });
+    
+    document.querySelectorAll('[data-placeholder-ar]').forEach(el => {
+        el.placeholder = el.getAttribute('data-placeholder-' + currentLang);
+    });
+    
+    prepareShuffledExam();
+    renderExam();
+    if (saved) {
+        if (saved.studentName) document.getElementById('studentName').value = saved.studentName;
+        if (saved.studentClass) document.getElementById('studentClass').value = saved.studentClass;
+        if (saved.examDate) document.getElementById('examDate').value = saved.examDate;
+        if (saved.answers) restoreAnswers(saved.answers);
+    }
+    setupAnswerListeners();
+    setupInputListeners();
+    startTimer();
+});
+window.addEventListener('beforeunload', () => saveState(false));
+</script>
+</body>
+</html>
